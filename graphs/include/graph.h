@@ -125,6 +125,7 @@ public:
                     for(auto& edge: edges[u->id]){
                         Vertex* v = &vertices.at(edge.to);
                         if(v->color == WHITE && !seen_nodes.contains(v->id)) {
+                            v->parent = u;
                             seen_nodes.insert(v->id);
                             stack.push_back(v);
                         }
