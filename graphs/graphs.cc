@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sstream>
+#include <string>
 #include "graph.h"
 
 using namespace ita::graphs;
@@ -6,29 +8,37 @@ using namespace ita::graphs;
 int main() {
     std::cout << "Graphs\n";
 
+    // Page 616, Figure 22.9
     std::vector<Edge> edges {
-        {2, 1},
-        {1, 3},
-        {3, 2},
-        {4, 2},
+        {1, 2},
+        {2, 3},
+        {2, 6},
+        {2, 5},
+        {3, 4},
+        {3, 7},
         {4, 3},
-        {4, 5},
-        {5, 6},
-        {6, 7},
+        {4, 8},
+        {8, 8},
+        {7, 8},
         {7, 6},
-        {5, 8},
-        {8, 4},
-        {9, 10},
-        {9, 8},
-        {10, 8}
+        {6, 7},
+        {5, 6},
+        {5, 1}
     };
-    Graph g{edges};
+    DGraph g{edges};
 
-    auto result = g.dfs();
+    std::stringstream ss1;
+    g.to_dot(ss1, true);
 
-    for(auto p: *result) {
-        std::cout << "Node " << p->id << ":\t" << p->t_discover << " to " << p->t_finish << "\n";
+    auto r = g.scc();
+    for(auto& set: *r){
+        for(auto id: set){
+            std::cout << (char)(id + 0x60) << " ";
+        }
+        std::cout << "\n";
     }
+
+    
 
     return 0;
 }
